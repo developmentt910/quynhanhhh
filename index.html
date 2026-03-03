@@ -61,7 +61,7 @@
       /* ----- Bó Hoa ----- */
       .garden-bouquet {
         position: absolute;
-        bottom: 10px; /* Đã hạ thấp xuống để cắm vào trong cỏ */
+        bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
         width: 300px;
@@ -194,7 +194,7 @@
       /* ----- THẢM CỎ NỀN GOM LẠI DƯỚI HOA ----- */
       .foreground-grass {
         position: absolute;
-        bottom: 0; /* Cho tiếp đất hoàn toàn */
+        bottom: 0;
         left: 50%;
         transform: translateX(-50%);
         width: 380px;
@@ -598,7 +598,6 @@
         }
       }
 
-      /* Đi lên nhanh hơn, phân bổ 2 bên */
       .start-animation .img-1 {
         left: 5%;
         animation: floatUp 7s linear infinite 1s;
@@ -646,14 +645,12 @@
         transform: scale(1.05);
         box-shadow: 0 0 30px rgba(247, 168, 184, 0.6);
       }
-
-      #youtube-player {
-        display: none;
-      }
     </style>
   </head>
   <body>
     <button id="startButton">Mở Quà Nhé!</button>
+
+    <audio id="bgMusic" src="./nhac.mp3" preload="auto"></audio>
 
     <div class="container" id="mainContainer">
       <div class="foreground-grass" id="grassLayer"></div>
@@ -772,26 +769,8 @@
       </div>
     </div>
 
-    <iframe
-      id="youtube-player"
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/T7ksmtaVeOk?enablejsapi=1"
-      title="YouTube video player"
-      frameborder="0"
-      allow="
-        accelerometer;
-        autoplay;
-        clipboard-write;
-        encrypted-media;
-        gyroscope;
-        picture-in-picture;
-      "
-      allowfullscreen
-    ></iframe>
-
     <script>
-      // Tạo một cụm cỏ nhỏ ôm lấy gốc hoa
+      // Tạo cỏ ôm gốc hoa
       const grassLayer = document.getElementById("grassLayer");
       const numberOfBlades = 50;
 
@@ -801,23 +780,27 @@
         grassLayer.appendChild(blade);
       }
 
-      // Xử lý nút click
+      // Xử lý khi ấn nút "Mở Quà Nhé!"
       document
         .getElementById("startButton")
         .addEventListener("click", function () {
+          // Ẩn nút đi
           this.style.display = "none";
+
+          // Hiện container chứa quà
           var container = document.getElementById("mainContainer");
           container.style.display = "block";
 
+          // Chạy hiệu ứng animation
           setTimeout(function () {
             container.classList.add("start-animation");
           }, 50);
 
-          var iframe = document.getElementById("youtube-player");
-          iframe.contentWindow.postMessage(
-            '{"event":"command","func":"playVideo","args":""}',
-            "*",
-          );
+          // PHÁT NHẠC MP3
+          var audio = document.getElementById("bgMusic");
+          audio.play().catch(function (error) {
+            console.log("Trình duyệt chặn tự động phát nhạc: ", error);
+          });
         });
     </script>
   </body>
