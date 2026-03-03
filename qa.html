@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc Mừng 8-3 Quỳnh Anh!</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0b101a;
+        font-family: "Arial", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        color: #fff;
+      }
+
+      /* ----- Nền lấp lánh ----- */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          radial-gradient(circle, #ffe6f2 1px, transparent 1px),
+          radial-gradient(circle, #ffb6c1 1.5px, transparent 1.5px);
+        background-size:
+          80px 80px,
+          120px 120px;
+        background-position:
+          0 0,
+          40px 40px;
+        opacity: 0.15;
+        animation: moveStars 15s linear infinite;
+        z-index: 1;
+      }
+
+      @keyframes moveStars {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-120px);
+        }
+      }
+
+      .container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: none;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      /* ----- Bó Hoa ----- */
+      .garden-bouquet {
+        position: absolute;
+        bottom: 10px; /* Đã hạ thấp xuống để cắm vào trong cỏ */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 450px;
+        z-index: 20;
+      }
+
+      .grass-blade {
+        position: absolute;
+        bottom: 0;
+        width: 4px;
+        height: 150px;
+        background: linear-gradient(to top, #022b10, #0a5c24);
+        border-radius: 2px 2px 0 0;
+        transform-origin: bottom;
+        transform: scaleY(0);
+      }
+
+      .grass-blade.curve-left {
+        border-radius: 100% 0 0 0;
+        width: 8px;
+      }
+      .grass-blade.curve-right {
+        border-radius: 0 100% 0 0;
+        width: 8px;
+      }
+
+      .stem {
+        position: absolute;
+        bottom: 0;
+        width: 6px;
+        background: linear-gradient(to right, #054016, #0a5c24);
+        transform-origin: bottom;
+        transform: scaleY(0);
+      }
+
+      .leaf {
+        position: absolute;
+        width: 40px;
+        height: 60px;
+        background: linear-gradient(135deg, #054016, #0a5c24);
+        border-radius: 0 100% 0 100%;
+        transform-origin: bottom;
+        transform: scale(0) rotate(0deg);
+      }
+
+      .flower-group {
+        position: absolute;
+        transform: scale(0);
+        z-index: 15;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .petal {
+        position: absolute;
+        width: 50px;
+        height: 30px;
+        background-color: #f7a8b8;
+        border-radius: 50%;
+        box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .center {
+        position: absolute;
+        width: 20px;
+        height: 10px;
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow:
+          0 0 5px #fff,
+          inset 0 0 5px #ffeb3b;
+        z-index: 16;
+      }
+
+      .petal:nth-child(1) {
+        transform: rotate(0deg) translateX(15px);
+      }
+      .petal:nth-child(2) {
+        transform: rotate(72deg) translateX(15px);
+      }
+      .petal:nth-child(3) {
+        transform: rotate(144deg) translateX(15px);
+      }
+      .petal:nth-child(4) {
+        transform: rotate(216deg) translateX(15px);
+      }
+      .petal:nth-child(5) {
+        transform: rotate(288deg) translateX(15px);
+      }
+
+      .floating-heart {
+        position: absolute;
+        opacity: 0;
+        transform: scale(0);
+      }
+      .heart-shape {
+        width: 30px;
+        height: 30px;
+        background-color: rgba(247, 168, 184, 0.6);
+        transform: rotate(45deg);
+      }
+      .heart-shape::before,
+      .heart-shape::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: rgba(247, 168, 184, 0.6);
+        border-radius: 50%;
+      }
+      .heart-shape::before {
+        top: -15px;
+        left: 0;
+      }
+      .heart-shape::after {
+        top: 0;
+        left: -15px;
+      }
+
+      .bubble {
+        position: absolute;
+        border: 2px solid rgba(247, 168, 184, 0.5);
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      /* ----- THẢM CỎ NỀN GOM LẠI DƯỚI HOA ----- */
+      .foreground-grass {
+        position: absolute;
+        bottom: 0; /* Cho tiếp đất hoàn toàn */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 380px;
+        height: 70px;
+        z-index: 25;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        overflow: visible;
+      }
+
+      .blade {
+        width: 6px;
+        background: linear-gradient(to top, #02200b, #0c752d);
+        border-radius: 3px 3px 0 0;
+        transform-origin: bottom;
+        transform: scaleY(0);
+        box-shadow: -1px 0 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .blade:nth-child(odd) {
+        height: 60px;
+        transform-origin: bottom;
+        border-radius: 100% 0 0 0;
+      }
+      .blade:nth-child(even) {
+        height: 40px;
+        transform-origin: bottom;
+        border-radius: 0 100% 0 0;
+        width: 4px;
+      }
+      .blade:nth-child(3n) {
+        height: 80px;
+        background: linear-gradient(to top, #011406, #095922);
+      }
+      .blade:nth-child(5n) {
+        height: 50px;
+        width: 8px;
+      }
+      .blade:nth-child(7n) {
+        height: 70px;
+      }
+
+      .start-animation .blade {
+        animation: growForegroundGrass 1.5s ease-out forwards;
+      }
+
+      .start-animation .blade:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .start-animation .blade:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .start-animation .blade:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .start-animation .blade:nth-child(4) {
+        animation-delay: 0.5s;
+      }
+      .start-animation .blade:nth-child(5) {
+        animation-delay: 0.1s;
+      }
+      .start-animation .blade:nth-child(6) {
+        animation-delay: 0.4s;
+      }
+      .start-animation .blade:nth-child(7) {
+        animation-delay: 0.2s;
+      }
+      .start-animation .blade:nth-child(8) {
+        animation-delay: 0.6s;
+      }
+      .start-animation .blade:nth-child(9) {
+        animation-delay: 0.3s;
+      }
+      .start-animation .blade:nth-child(10) {
+        animation-delay: 0.7s;
+      }
+
+      @keyframes growForegroundGrass {
+        0% {
+          transform: scaleY(0);
+        }
+        80% {
+          transform: scaleY(1.1);
+        }
+        100% {
+          transform: scaleY(1) rotate(calc(var(--rot, 0deg)));
+        }
+      }
+
+      .blade:nth-child(odd) {
+        --rot: -5deg;
+      }
+      .blade:nth-child(even) {
+        --rot: 5deg;
+      }
+      .blade:nth-child(3n) {
+        --rot: -10deg;
+      }
+
+      /* ----- HOẠT ẢNH BÓ HOA ----- */
+      .start-animation .grass-1 {
+        left: 20px;
+        height: 120px;
+        transform: rotate(-15deg) scaleY(0);
+        animation: growElement 1s ease forwards 0s;
+      }
+      .start-animation .grass-2 {
+        left: 60px;
+        height: 180px;
+        transform: rotate(-5deg) scaleY(0);
+        animation: growElement 1.2s ease forwards 0.2s;
+      }
+      .start-animation .grass-3 {
+        right: 40px;
+        height: 140px;
+        transform: rotate(10deg) scaleY(0);
+        animation: growElement 1.5s ease forwards 0.4s;
+      }
+      .start-animation .grass-4 {
+        right: 80px;
+        height: 100px;
+        transform: rotate(20deg) scaleY(0);
+        animation: growElement 1.1s ease forwards 0.3s;
+      }
+
+      .start-animation .grass-c1 {
+        left: 0;
+        height: 200px;
+        transform: rotate(-30deg) scaleY(0);
+        animation: growCurveLeft 1.5s ease forwards 0.5s;
+      }
+      .start-animation .grass-c2 {
+        right: 10px;
+        height: 220px;
+        transform: rotate(25deg) scaleY(0);
+        animation: growCurveRight 1.6s ease forwards 0.6s;
+      }
+
+      .start-animation .stem-center {
+        left: 147px;
+        height: 350px;
+        animation: growElement 2s ease forwards 0.8s;
+      }
+      .start-animation .stem-left-1 {
+        left: 147px;
+        height: 280px;
+        transform-origin: bottom;
+        transform: rotate(-15deg) scaleY(0);
+        animation: growStemL1 2s ease forwards 1s;
+      }
+      .start-animation .stem-right-1 {
+        left: 147px;
+        height: 260px;
+        transform-origin: bottom;
+        transform: rotate(15deg) scaleY(0);
+        animation: growStemR1 2s ease forwards 1.2s;
+      }
+      .start-animation .stem-left-2 {
+        left: 147px;
+        height: 200px;
+        transform-origin: bottom;
+        transform: rotate(-25deg) scaleY(0);
+        animation: growStemL2 2s ease forwards 1.4s;
+      }
+
+      .start-animation .leaf-1 {
+        bottom: 80px;
+        left: 120px;
+        animation: drawLeaf 1s ease forwards 1.5s;
+      }
+      .start-animation .leaf-2 {
+        bottom: 130px;
+        left: 160px;
+        animation: drawLeaf2 1s ease forwards 1.7s;
+      }
+      .start-animation .leaf-3 {
+        bottom: 180px;
+        left: 110px;
+        animation: drawLeaf 1s ease forwards 1.9s;
+      }
+      .start-animation .leaf-4 {
+        bottom: 220px;
+        left: 170px;
+        animation: drawLeaf2 1s ease forwards 2.1s;
+      }
+
+      .start-animation .flower-1 {
+        bottom: 350px;
+        left: 150px;
+        animation: drawFlower 1.5s ease forwards 2.5s;
+      }
+      .start-animation .flower-2 {
+        bottom: 275px;
+        left: 75px;
+        animation: drawFlower 1.5s ease forwards 2.8s;
+      }
+      .start-animation .flower-3 {
+        bottom: 255px;
+        left: 215px;
+        animation: drawFlower 1.5s ease forwards 3.1s;
+      }
+      .start-animation .flower-4 {
+        bottom: 180px;
+        left: 65px;
+        transform: scale(0.7);
+        animation: drawFlower 1.5s ease forwards 3.4s;
+      }
+
+      .start-animation .heart-1 {
+        bottom: 200px;
+        left: 0px;
+        animation: floatHeart 4s ease forwards 4s;
+      }
+      .start-animation .heart-2 {
+        bottom: 300px;
+        right: -50px;
+        transform: scale(0.6);
+        animation: floatHeart 4s ease forwards 4.5s;
+      }
+      .start-animation .heart-3 {
+        bottom: 400px;
+        right: 50px;
+        transform: scale(0.8);
+        animation: floatHeart 4s ease forwards 5s;
+      }
+
+      .start-animation .bubble-1 {
+        bottom: 380px;
+        left: 20px;
+        width: 60px;
+        height: 60px;
+        animation: floatBubble 5s ease forwards 4.2s;
+      }
+      .start-animation .bubble-2 {
+        bottom: 150px;
+        left: -40px;
+        width: 80px;
+        height: 80px;
+        animation: floatBubble 5s ease forwards 4.8s;
+      }
+
+      @keyframes growElement {
+        to {
+          transform: scaleY(1);
+        }
+      }
+      @keyframes growCurveLeft {
+        to {
+          transform: rotate(-30deg) scaleY(1);
+        }
+      }
+      @keyframes growCurveRight {
+        to {
+          transform: rotate(25deg) scaleY(1);
+        }
+      }
+      @keyframes growStemL1 {
+        to {
+          transform: rotate(-15deg) scaleY(1);
+        }
+      }
+      @keyframes growStemR1 {
+        to {
+          transform: rotate(15deg) scaleY(1);
+        }
+      }
+      @keyframes growStemL2 {
+        to {
+          transform: rotate(-25deg) scaleY(1);
+        }
+      }
+
+      @keyframes drawLeaf {
+        0% {
+          transform: scale(0) rotate(0deg);
+        }
+        100% {
+          transform: scale(1) rotate(-45deg);
+        }
+      }
+      @keyframes drawLeaf2 {
+        0% {
+          transform: scale(0) rotate(0deg);
+        }
+        100% {
+          transform: scale(1) rotate(45deg);
+        }
+      }
+      @keyframes drawFlower {
+        0% {
+          transform: scale(0) rotate(-20deg);
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      @keyframes floatHeart {
+        0% {
+          transform: scale(0) translateY(0);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1) translateY(-30px);
+          opacity: 1;
+        }
+      }
+      @keyframes floatBubble {
+        0% {
+          transform: scale(0) translateY(0);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1) translateY(-20px);
+          opacity: 1;
+        }
+      }
+
+      /* ----- Lời chúc ----- */
+      .message {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #f7a8b8;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        z-index: 21;
+        width: 100%;
+      }
+
+      .message h1,
+      .message h2 {
+        margin: 10px 0;
+        opacity: 0;
+      }
+      .start-animation .message h1 {
+        font-size: 2.8em;
+        animation: fadeInText 2s ease forwards 6s;
+      }
+      .start-animation .message h2 {
+        font-size: 2em;
+        animation: fadeInText 2s ease forwards 7s;
+      }
+
+      @keyframes fadeInText {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ----- Các ảnh lặp lại ----- */
+      .image-wrapper {
+        position: absolute;
+        width: 160px;
+        border-radius: 10px;
+        border: 2px solid rgba(247, 168, 184, 0.3);
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        z-index: 5;
+        bottom: -200px;
+        opacity: 0;
+      }
+
+      .image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      @keyframes floatUp {
+        0% {
+          bottom: -200px;
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          bottom: 110%;
+          opacity: 0;
+          transform: scale(0.8);
+        }
+      }
+
+      /* Đi lên nhanh hơn, phân bổ 2 bên */
+      .start-animation .img-1 {
+        left: 5%;
+        animation: floatUp 7s linear infinite 1s;
+      }
+      .start-animation .img-2 {
+        right: 15%;
+        animation: floatUp 6s linear infinite 3s;
+      }
+      .start-animation .img-3 {
+        right: 10%;
+        animation: floatUp 8s linear infinite 2s;
+      }
+      .start-animation .img-4 {
+        right: 5%;
+        animation: floatUp 5s linear infinite 4s;
+      }
+      .start-animation .img-5 {
+        left: 10%;
+        animation: floatUp 7s linear infinite 1.5s;
+      }
+      .start-animation .img-6 {
+        right: 20%;
+        animation: floatUp 6s linear infinite 3.5s;
+      }
+      .start-animation .img-7 {
+        left: 25%;
+        animation: floatUp 8s linear infinite 2.5s;
+      }
+
+      /* ----- Nút Bắt Đầu ----- */
+      #startButton {
+        padding: 15px 40px;
+        font-size: 1.2em;
+        background-color: #f7a8b8;
+        color: #000;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(247, 168, 184, 0.4);
+        transition: all 0.3s;
+        z-index: 100;
+      }
+      #startButton:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(247, 168, 184, 0.6);
+      }
+
+      #youtube-player {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="startButton">Mở Quà Nhé!</button>
+
+    <div class="container" id="mainContainer">
+      <div class="foreground-grass" id="grassLayer"></div>
+
+      <div class="garden-bouquet">
+        <div class="grass-blade grass-1"></div>
+        <div class="grass-blade grass-2"></div>
+        <div class="grass-blade grass-3"></div>
+        <div class="grass-blade grass-4"></div>
+        <div class="grass-blade curve-left grass-c1"></div>
+        <div class="grass-blade curve-right grass-c2"></div>
+
+        <div class="stem stem-center"></div>
+        <div class="stem stem-left-1"></div>
+        <div class="stem stem-right-1"></div>
+        <div class="stem stem-left-2"></div>
+
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+        <div class="leaf leaf-3"></div>
+        <div class="leaf leaf-4"></div>
+
+        <div class="flower-group flower-1">
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="center"></div>
+        </div>
+        <div class="flower-group flower-2">
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="center"></div>
+        </div>
+        <div class="flower-group flower-3">
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="center"></div>
+        </div>
+        <div class="flower-group flower-4">
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="center"></div>
+        </div>
+
+        <div class="floating-heart heart-1">
+          <div class="heart-shape"></div>
+        </div>
+        <div class="floating-heart heart-2">
+          <div class="heart-shape"></div>
+        </div>
+        <div class="floating-heart heart-3">
+          <div class="heart-shape"></div>
+        </div>
+
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+      </div>
+
+      <div class="message">
+        <h1>8-3 Vuiii vẻee!</h1>
+        <h2>Quỳnh Anh xinh gáiiii!</h2>
+      </div>
+
+      <div class="image-wrapper img-1">
+        <img
+          src="./z7584195795695_817f2fc7489a53e35debc12c4ab861a9.jpg"
+          alt="Ảnh 1"
+        />
+      </div>
+      <div class="image-wrapper img-2">
+        <img
+          src="./z7584195803452_f0c32438f012464e44b179827f9e0faf.jpg"
+          alt="Ảnh 2"
+        />
+      </div>
+      <div class="image-wrapper img-3">
+        <img
+          src="./z7584195809041_3573da8a5831b6e38da02c2fecae1991.jpg"
+          alt="Ảnh 3"
+        />
+      </div>
+      <div class="image-wrapper img-4">
+        <img
+          src="./z7584195846781_e17f757ef396647688f078d3b5795a79.jpg"
+          alt="Ảnh 4"
+        />
+      </div>
+      <div class="image-wrapper img-5">
+        <img
+          src="./z7584195846864_025a829525e185feb12d6235cbe46a8a.jpg"
+          alt="Ảnh 5"
+        />
+      </div>
+      <div class="image-wrapper img-6">
+        <img
+          src="./z7584195854536_d7d5a49d7fbd89f5efc1cc74a198c095.jpg"
+          alt="Ảnh 6"
+        />
+      </div>
+      <div class="image-wrapper img-7">
+        <img
+          src="./z7584195858871_0eda997220daefabdbf3c89a642a4115.jpg"
+          alt="Ảnh 7"
+        />
+      </div>
+    </div>
+
+    <iframe
+      id="youtube-player"
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/T7ksmtaVeOk?enablejsapi=1"
+      title="YouTube video player"
+      frameborder="0"
+      allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+      "
+      allowfullscreen
+    ></iframe>
+
+    <script>
+      // Tạo một cụm cỏ nhỏ ôm lấy gốc hoa
+      const grassLayer = document.getElementById("grassLayer");
+      const numberOfBlades = 50;
+
+      for (let i = 0; i < numberOfBlades; i++) {
+        const blade = document.createElement("div");
+        blade.classList.add("blade");
+        grassLayer.appendChild(blade);
+      }
+
+      // Xử lý nút click
+      document
+        .getElementById("startButton")
+        .addEventListener("click", function () {
+          this.style.display = "none";
+          var container = document.getElementById("mainContainer");
+          container.style.display = "block";
+
+          setTimeout(function () {
+            container.classList.add("start-animation");
+          }, 50);
+
+          var iframe = document.getElementById("youtube-player");
+          iframe.contentWindow.postMessage(
+            '{"event":"command","func":"playVideo","args":""}',
+            "*",
+          );
+        });
+    </script>
+  </body>
+</html>
