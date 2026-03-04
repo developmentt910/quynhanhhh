@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chúc Mừng 8-3 Quỳnh Anh!</title>
     <style>
+      /* KHAI BÁO BIẾN KÍCH THƯỚC (Dùng cho PC) */
+      :root {
+        --bq-scale: 1.5; /* Độ to của bó hoa trên PC */
+        --img-size: 160px; /* Kích thước ảnh trên PC */
+        --text-h1: 2.8em; /* Cỡ chữ to trên PC */
+        --text-h2: 2em; /* Cỡ chữ nhỏ trên PC */
+        --msg-top: 8%; /* Vị trí chữ trên PC */
+      }
+
+      /* TỰ ĐỘNG THAY ĐỔI KÍCH THƯỚC NẾU LÀ ĐIỆN THOẠI (Màn hình < 768px) */
+      @media (max-width: 768px) {
+        :root {
+          --bq-scale: 0.85; /* Thu nhỏ bó hoa lại cho vừa điện thoại */
+          --img-size: 100px; /* Thu nhỏ ảnh bay bay lại */
+          --text-h1: 1.8em; /* Thu nhỏ cỡ chữ */
+          --text-h2: 1.2em;
+          --msg-top: 6%; /* Đẩy chữ lên xíu */
+        }
+      }
+
       body {
         margin: 0;
         padding: 0;
@@ -73,31 +93,31 @@
       }
 
       /* =========================================
-         BÓ HOA GÓI GIẤY (Đã thêm hiệu ứng đung đưa)
+         BÓ HOA GÓI GIẤY (Đã áp dụng biến kích thước tự động)
          ========================================= */
       .new-bouquet {
         position: absolute;
         bottom: 8%;
         left: 50%;
-        transform: translateX(-50%) scale(1.5);
-        transform-origin: bottom center; /* Gắn tâm chuyển động ở gốc bó hoa */
+        /* Sử dụng biến --bq-scale để tự động to/nhỏ tùy thiết bị */
+        transform: translateX(-50%) scale(var(--bq-scale));
+        transform-origin: bottom center;
         width: 300px;
         height: 400px;
         z-index: 20;
       }
 
-      /* Hoạt ảnh đung đưa nhẹ nhàng cho toàn bộ bó hoa */
+      /* Hoạt ảnh đung đưa cập nhật theo biến tỷ lệ */
       @keyframes sway {
         0%,
         100% {
-          transform: translateX(-50%) scale(1.5) rotate(-2deg);
+          transform: translateX(-50%) scale(var(--bq-scale)) rotate(-2deg);
         }
         50% {
-          transform: translateX(-50%) scale(1.5) rotate(2deg);
+          transform: translateX(-50%) scale(var(--bq-scale)) rotate(2deg);
         }
       }
 
-      /* Gọi hiệu ứng đung đưa lặp lại vô hạn khi bắt đầu */
       .start-animation .new-bouquet {
         animation: sway 5s ease-in-out infinite;
       }
@@ -399,7 +419,7 @@
       /* ----- Lời chúc ----- */
       .message {
         position: absolute;
-        top: 8%;
+        top: var(--msg-top); /* Lấy vị trí từ biến */
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
@@ -414,12 +434,13 @@
         margin: 10px 0;
         opacity: 0;
       }
+      /* Lấy cỡ chữ từ biến */
       .start-animation .message h1 {
-        font-size: 2.8em;
+        font-size: var(--text-h1);
         animation: fadeInText 2s ease forwards 4s;
       }
       .start-animation .message h2 {
-        font-size: 2em;
+        font-size: var(--text-h2);
         animation: fadeInText 2s ease forwards 5s;
       }
 
@@ -437,7 +458,7 @@
       /* ----- Các ảnh lặp lại ----- */
       .image-wrapper {
         position: absolute;
-        width: 160px;
+        width: var(--img-size); /* Lấy chiều rộng từ biến */
         border-radius: 10px;
         border: 2px solid rgba(236, 64, 122, 0.3);
         overflow: hidden;
